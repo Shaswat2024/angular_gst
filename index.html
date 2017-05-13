@@ -8,72 +8,66 @@
         <title>GST Calculator</title>
     </head>
     <body>
+        <div class="container-fluid">
+            <div class="col-md-12 col-sm-12">
+                <h1 class="row text-center">GST calculator</h1>
+            </div>
+        </div>
         <div class="container"  ng-controller="GstController as gstController">
-            <h1 class="row text-center">GST calculator</h1>
             <form class="row form-inline">
-                <div class="col-sm-12">
+                <div class="col-md-12 col-sm-12">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="form-group col-sm-2">
-                                    <label class="sr-only">Price excluding GST</label>
-                                    <p class="form-control-static">Price excl. GST</p>
-                                </div>
-                                <div class="form-group col-sm-2">
-                                    <label class="sr-only">GST</label>
-                                    <p class="form-control-static">GST</p>
-                                </div>
-                                <div class="form-group col-sm-2">
-                                    <label class="sr-only">Price including GST</label>
-                                    <p class="form-control-static">Price incl. GST</p>
-                                </div>
+                        <div class="form-group col-md-3 col-sm-4">
+                            <label class="sr-only">Price excluding GST</label>
+                            <p class="form-control-static">Price excl. GST</p>
+                        </div>
+                        <div class="form-group col-md-2 col-sm-2">
+                            <label class="sr-only">GST</label>
+                            <p class="form-control-static">GST</p>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3">
+                            <label class="sr-only">Price including GST</label>
+                            <p class="form-control-static">Price incl. GST</p>
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat-start="price in gstController.prices" ng-repeat-end>
+                        <div class="form-group col-md-3 col-sm-4">
+                            <label for="priceWithoutGST" class="sr-only">Price excluding GST</label>
+                            <input type="number" class="form-control" placeholder="excluding gst" ng-model="price.priceExcludingGST"/>
+                        </div>
+                        <div class="form-group col-md-2 col-sm-2">
+                            <label for="gst" class="sr-only">GST</label>
+                            <p class="form-control-static">{{ price.GST | currency }}</p>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-4">
+                            <label for="priceWithoutGST" class="sr-only">Price excluding GST</label>
+                            <input type="number" class="form-control" placeholder="including gst" ng-model="price.priceIncludingGST"/>
+                        </div>
+                        <div class="col-md-3 col-sm-2">
+                            <div class="form-group">
+                                <button type="button" class="form-control btn btn-default" ng-click="gstController.RemovePrice($index)" ng-disabled="gstController.prices.length <= 1">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="form-control btn btn-default" ng-click="gstController.AddPrice($index)">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12" ng-repeat="price in gstController.prices">
-                            <div class="row">
-                                <div class="form-group col-sm-2">
-                                    <label for="priceWithoutGST" class="sr-only">Price excluding GST</label>
-                                    <input type="number" class="form-control" placeholder="excluding gst" ng-model="price.priceExcludingGST"/>
-                                </div>
-                                <div class="form-group col-sm-2">
-                                    <label for="gst" class="sr-only">GST</label>
-                                    <p class="form-control-static">{{ price.GST | currency }}</p>
-                                </div>
-                                <div class="form-group col-sm-2">
-                                    <label for="priceWithoutGST" class="sr-only">Price excluding GST</label>
-                                    <input type="number" class="form-control" placeholder="including gst" ng-model="price.priceIncludingGST"/>
-                                </div>
-                                <div class="form-group">
-                                    <button type="button" class="form-control btn btn-default" ng-click="gstController.RemovePrice($index)" ng-disabled="gstController.prices.length <= 1">
-                                        <span class="glyphicon glyphicon-minus"></span>
-                                    </button>
-                                </div>
-                                <div class="form-group">
-                                    <button type="button" class="form-control btn btn-default" ng-click="gstController.AddPrice($index)">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="form-group col-md-3 col-sm-4">
+                            <label class="sr-only">Total excluding GST</label>
+                            <p class="form-control-static">{{ gstController.GetTotalExcludingGST() | currency: '$': 2 }}</p>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="form-group col-sm-2">
-                                    <label class="sr-only">Total excluding GST</label>
-                                    <p class="form-control-static">{{ gstController.GetTotalExcludingGST() | currency: '$': 2 }}</p>
-                                </div>
-                                <div class="form-group col-sm-2">
-                                    <label class="sr-only">GST</label>
-                                    <p class="form-control-static">{{ gstController.GetTotalGST() | currency: '$': 2 }}</p>
-                                </div>
-                                <div class="form-group col-sm-2">
-                                    <label class="sr-only">Total including GST</label>
-                                    <p class="form-control-static">{{ gstController.GetTotalIncludingGST() | currency: '$': 2 }}</p>
-                                </div>
-                            </div>
+                        <div class="form-group col-md-2 col-sm-2">
+                            <label class="sr-only">GST</label>
+                            <p class="form-control-static">{{ gstController.GetTotalGST() | currency: '$': 2 }}</p>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-4">
+                            <label class="sr-only">Total including GST</label>
+                            <p class="form-control-static">{{ gstController.GetTotalIncludingGST() | currency: '$': 2 }}</p>
                         </div>
                     </div>
                     
